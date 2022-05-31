@@ -6,13 +6,14 @@ from .models import *
 
 class BaseView(View):
 	views = {}
-	views['categories'] = Category.objects.all()
-	views['subcategories'] = SubCategory.objects.all()
+	
 
 
 
 class HomeView(BaseView):
 	def get(self,request):
+		self.views['categories'] = Category.objects.all()
+		self.views['subcategories'] = SubCategory.objects.all()
 		self.views['new_products'] = Product.objects.filter(labels = 'new')
 		self.views['hot_products'] = Product.objects.filter(labels = 'hot')
 		self.views['offer_products'] = Product.objects.filter(labels = 'offer')

@@ -116,40 +116,26 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 								<a href="#" class="dropdown-toggle  hyper" data-toggle="dropdown" ><span>{{cat.name}}<b class="caret"></b></span></a>
 								<ul class="dropdown-menu multi">
 									<div class="row">
+										<div class = "col-sm-9">
+											{% for subcat in subcategories %}
+											{% if subcat.category_id == cat.id %}
 										<div class="col-sm-3">
 											<ul class="multi-column-dropdown">
 			
-												<li><a href="kitchen.html"><i class="fa fa-angle-right" aria-hidden="true"></i>Water & Beverages</a></li>
+												<li><a href="kitchen.html"><i class="fa fa-angle-right" aria-hidden="true"></i>{{subcat.name}}</a></li>
 												
 												
 											</ul>
 										
 										</div>
-										<div class="col-sm-3">
-										
-											<ul class="multi-column-dropdown">
-												<li><a href="kitchen.html"><i class="fa fa-angle-right" aria-hidden="true"></i>Breakfast &amp; Cereal</a></li>
-												<li><a href="kitchen.html"><i class="fa fa-angle-right" aria-hidden="true"></i>Snacks</a></li>
-												<li><a href="kitchen.html"><i class="fa fa-angle-right" aria-hidden="true"></i>Spices</a></li>
-												<li><a href="kitchen.html"><i class="fa fa-angle-right" aria-hidden="true"></i>Biscuit &amp; Cookie</a></li>
-												<li><a href="kitchen.html"><i class="fa fa-angle-right" aria-hidden="true"></i>Sweets</a></li>
-										
-											</ul>
-										
+										{% endif %}
+										{% endfor %}
 										</div>
-										<div class="col-sm-3">
 										
-											<ul class="multi-column-dropdown">
-												<li><a href="kitchen.html"><i class="fa fa-angle-right" aria-hidden="true"></i>Pickle & Condiment</a></li>
-												<li><a href="kitchen.html"><i class="fa fa-angle-right" aria-hidden="true"></i>Instant Food</a></li>
-												<li><a href="kitchen.html"><i class="fa fa-angle-right" aria-hidden="true"></i>Dry Fruit</a></li>
-												<li><a href="kitchen.html"><i class="fa fa-angle-right" aria-hidden="true"></i>Tea &amp; Coffee</a></li>
-										
-											</ul>
-										</div>
 										<div class="col-sm-3 w3l">
-											<a href="kitchen.html"><img src="images/me.png" class="img-responsive" alt=""></a>
+											<a href="kitchen.html"><img src="{{cat.image.url}}" class="img-responsive" alt=""></a>
 										</div>
+									
 										<div class="clearfix"></div>
 									</div>	
 								</ul>
