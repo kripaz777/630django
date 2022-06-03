@@ -6,7 +6,7 @@ class Category(models.Model):
 	name = models.CharField(max_length = 300)
 	slug = models.CharField(max_length = 500, unique = True)
 	image = models.ImageField(upload_to = 'media', null = True)
-
+	status = models.CharField(choices = STATUS,max_length = 300,blank = True)
 	def __str__(self):
 		return self.name
 
