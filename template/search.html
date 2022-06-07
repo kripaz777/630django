@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <!-- Carousel
+    ================================================== -->
+   
+<!--content-->
+		<div class="product">
+		<div class="container">
+			<div class="spec ">
+				<h3>You searched for {{search_for}}
+				<div class="ser-t">
+					<b></b>
+					<span><i></i></span>
+					<b class="line"></b>
+				</div>
+			</div>
+				<div class=" con-w3l agileinf">
+							{% for search in search_result %}
+							<div class="col-md-3 pro-1">
+								<div class="col-m">
+								<a href="#" data-toggle="modal" data-target="#myModal1" class="offer-img">
+										<img src="{{search.image.url}}" class="img-responsive" alt="">
+									</a>
+									<div class="mid-1">
+										<div class="women">
+											<h6><a href="single.html">{{search.name}}</a></h6>							
+										</div>
+										<div class="mid-2">
+											{% if search.discounted_price > 0 %}
+											<p ><label>${{search.price}}</label><em class="item_price">
+											${{search.discounted_price}}</em></p>
+											{% else%}
+												<p ><em class="item_price">${{search.price}}</em></p>
+
+											{% endif %}
+											  <div class="block">
+												<div class="starbox small ghosting"> </div>
+											</div>
+											<div class="clearfix"></div>
+										</div>
+											<div class="add">
+										   <button class="btn btn-danger my-cart-btn my-cart-b" data-id="24" data-name="Wheat" data-summary="summary 24" data-price="6.00" data-quantity="1" data-image="images/of24.png">Add to Cart</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							{% endfor %}
+							<div class="clearfix"></div>
+						 </div>
+		</div>
+	</div>
+{% endblock %}
