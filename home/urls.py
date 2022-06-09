@@ -9,6 +9,9 @@ urlpatterns = [
     path('signup',signup,name = 'signup'),
     path('login',login,name = 'login'),
     path('logout',logout,name = 'logout'),
-
+    path('mycart',CartView.as_view(),name = 'mycart'),
+    path('cart/<slug>',cart,name = 'cart'),
+    path('delete_cart/<slug>',delete_cart,name = 'delete_cart'),
+    path('remove_product/<slug>',remove_product,name = 'remove_product'),
 
 ]
