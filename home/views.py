@@ -9,8 +9,6 @@ class BaseView(View):
 	views['categories'] = Category.objects.all()
 	views['subcategories'] = SubCategory.objects.all()
 
-
-
 class HomeView(BaseView):
 	def get(self,request):
 		self.views
@@ -107,8 +105,12 @@ def logout(request):
 def cal_cart(slug,username):
 	price = Product.objects.get(slug = slug).price
 	discounted_price = Product.objects.get(slug = slug).discounted_price
-	quantity = Cart.objects.filter(username = username,slug = slug,checkout = False).quantity
-	quantity = quantity+1
+	if Cart.objects.filter(username = username,slug = slug,checkout = False).exists():
+		quantity = Cart.objects.get(username = username,slug = slug,checkout = False).quantity
+		quantity = quantity+1
+	else:
+		quantity = 1
+
 	if discounted_price > 0:
 		original_price = discounted_price
 		total = original_price*quantity
@@ -116,16 +118,16 @@ def cal_cart(slug,username):
 		original_price = price
 		total = original_price*quantity
 
-	return total,original_price
+	return total,original_price,quantity
 
 def cart(request,slug):
 	username = request.user.username
 	if Cart.objects.filter(username = username,slug = slug,checkout = False).exists():
-		total = cal_cart(slug,username)[0]
+		total,original_price,quantity = cal_cart(slug,username)
 		Cart.objects.filter(username = username,slug = slug,checkout = False).update(quantity = quantity,total = total)
 
 	else:
-		original_price = cal_cart(slug,username)[1]
+		total,original_price,quantity = cal_cart(slug,username)
 		data = Cart.objects.create(
 			username = username,
 			slug = slug,
@@ -133,17 +135,19 @@ def cart(request,slug):
 			total = original_price
 			)
 		data.save()
-	return redirect('/')
+	return redirect('/mycart')
 
 def delete_cart(request,slug):
+	username = request.user.username
 	if Cart.objects.filter(username = username,slug = slug,checkout = False).exists():
 		Cart.objects.filter(username = username,slug = slug,checkout = False).delete()
-		return redirect('/')	
+		return redirect('/mycart')	
 
 def remove_product(request,slug):
+	username = request.user.username
 	price = Product.objects.get(slug = slug).price
 	discounted_price = Product.objects.get(slug = slug).discounted_price
-	quantity = Cart.objects.filter(username = username,slug = slug,checkout = False).quantity
+	quantity = Cart.objects.get(username = username,slug = slug,checkout = False).quantity
 	if quantity >1:
 		quantity = quantity-1
 		if discounted_price > 0:
@@ -154,7 +158,7 @@ def remove_product(request,slug):
 			total = original_price*quantity
 
 		Cart.objects.filter(username = username,slug = slug,checkout = False).update(quantity = quantity,total = total)
-		return redirect('/')
+		return redirect('/mycart')
 
 
 class CartView(BaseView):

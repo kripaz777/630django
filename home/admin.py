@@ -7,4 +7,5 @@ admin.site.register(SubCategory)
 admin.site.register(Slider)
 admin.site.register(Ad)
 admin.site.register(Product)
+admin.site.register(Cart)
 

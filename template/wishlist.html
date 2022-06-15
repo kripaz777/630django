@@ -4,8 +4,8 @@
    <!--banner-->
 <div class="banner-top">
 	<div class="container">
-		<h3 >Wishlist</h3>
-		<h4><a href="index.html">Home</a><label>/</label>Wishlist</h4>
+		<h3 >Cart</h3>
+		<h4><a href="index.html">Home</a><label>/</label>Cart</h4>
 		<div class="clearfix"> </div>
 	</div>
 </div>
@@ -14,7 +14,7 @@
 		<div class="check-out">	 
 		<div class="container">	 
 	 <div class="spec ">
-				<h3>Wishlist</h3>
+				<h3>Cart</h3>
 					<div class="ser-t">
 						<b></b>
 						<span><i></i></span>
@@ -60,7 +60,7 @@
 				<h5>{{cart.items.name}}</h5>
 			</div>
 			<div class="clearfix"> </div>
-				<div class="close3"> <i class="fa fa-times" aria-hidden="true"></i></div>
+				<a href = "/delete_cart/{{cart.slug}}"><div class="close3"> <i class="fa fa-times" aria-hidden="true"></i></div></a>
 			</td>
 			{% if cart.items.discounted_price > 0 %}
 			<td class="t-data">${{cart.items.discounted_price}}</td>
