@@ -3,7 +3,7 @@ STATUS = (('active','Active'),('','Default'))
 LABELS = (('offer','Offer'),('new','New'),('hot','Hot'),('','Default'))
 # Create your models here.
 class Category(models.Model):
-	name = models.CharField(max_length = 300)
+	name = models.CharField(max_length = 300,unique = True)
 	slug = models.CharField(max_length = 500, unique = True)
 	image = models.ImageField(upload_to = 'media', null = True)
 	status = models.CharField(choices = STATUS,max_length = 300,blank = True)
@@ -11,7 +11,7 @@ class Category(models.Model):
 		return self.name
 
 class SubCategory(models.Model):
-	name = models.CharField(max_length = 300)
+	name = models.CharField(max_length = 300,unique = True)
 	slug = models.CharField(max_length = 500, unique = True)
 	category = models.ForeignKey(Category,on_delete = models.CASCADE)
 

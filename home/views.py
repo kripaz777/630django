@@ -159,6 +159,7 @@ def remove_product(request,slug):
 
 		Cart.objects.filter(username = username,slug = slug,checkout = False).update(quantity = quantity,total = total)
 		return redirect('/mycart')
+	return redirect('/mycart')
 
 
 class CartView(BaseView):
@@ -166,3 +167,65 @@ class CartView(BaseView):
 		username = request.user.username
 		self.views['cart_view'] = Cart.objects.filter(username = username,checkout = False)
 		return render(request,'wishlist.html',self.views)
+
+
+# -------------------------------------API------------------------------------------------
+from .serializers import *
+from rest_framework import serializers, viewsets
+
+# ViewSets define the view behavior.
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
+import django_filters.rest_framework
+from rest_framework import generics
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter,OrderingFilter
+
+class ProductFilterViewSet(generics.ListAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+    filter_backends = [DjangoFilterBackend,OrderingFilter,SearchFilter]
+    filter_fields = ['id','category','subcategory','labels','status']
+    ordering_fields = ['price','id','name']
+    search_fields = ['name','description']
+
+
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views  import APIView
+
+class CRUDItemViewSet(APIView):
+	def get_object(self,pk):
+		try:
+			return Product.objects.get(pk = pk)
+		except:
+			print("The id does not exists.")
+	def get(self,request,pk,format = None):
+			product_data = self.get_object(pk)
+			serializer = ProductSerializer(product_data)
+			return Response(serializer.data)
+	def post(self,request,pk,format = None):
+		serializer = ProductSerializer(data = request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response({'status':"The value is posted"})
+
+	def put(self,request,pk,format = None):
+		product_data = self.get_object(pk)
+		serializer = ProductSerializer(product_data,data = request.data,partial = True)
+		if serializer.is_valid():
+			# (serializer.data).update(request.data)
+			serializer.save()
+			return Response(serializer.data)
+		return Response({'status':"The value is updated"})
+
+	def delete(self,request,pk):
+		try:
+			Product.objects.filter(id = pk).delete()
+			return Response({"status":"The object is deleted"})
+		except:
+			return Response({"status":"The object is already deleted"})

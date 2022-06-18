@@ -69,10 +69,11 @@
 			{% endif %}
 			<td class="t-data"><div class="quantity"> 
 								<div class="quantity-select">
-								<a href = "/cart/{{cart.slug}}">+</a>            
+								<a href = "/remove_product/{{cart.slug}}">-</a>             
 									<!-- <div class="entry value-minus">&nbsp;</div> -->
 										<div class="entry value"><span class="span-1">{{cart.quantity}}</span></div>
-										<a href = "/remove_product/{{cart.slug}}">-</a>   									
+										  	
+										<a href = "/cart/{{cart.slug}}">+</a> 
 <!-- 									<div class="entry value-plus active">&nbsp;</div>
  -->								</div>
 							</div>
